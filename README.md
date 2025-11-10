@@ -16,7 +16,7 @@ El ecosistema está completamente containerizado usando **Laravel Sail** (Docker
 1.  **Backend (API):** Una API RESTful robusta construida con **Laravel 11**. Se encarga de la lógica de negocio, autenticación (Sanctum), roles (Admin/User), y la gestión de la base de datos (MySQL).
 2.  **Frontend (SPA):** Una Single Page Application moderna construida con **React 19 (Vite)**. Incluye un diseño "Fintech" (Tailwind CSS), enrutamiento (React Router), manejo de formularios (React Hook Form), y gestión de estado global (React Context).
 
-El proyecto demuestra una arquitectura profesional separando la lógica de negocio en una capa de servicios en el backend, implementando caching (Redis), y proveyendo un frontend reactivo y seguro.
+El proyecto demuestra una arquitectura profesional separando la lógica de negocio en una capa de servicios en el backend, proveyendo un frontend reactivo y seguro.
 
 ---
 
