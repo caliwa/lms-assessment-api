@@ -54,6 +54,6 @@ class BookService
         if ($id) {
             Cache::forget("book.{$id}");
         }
-        Cache::tags('books')->flush();
+        Cache::flush();
     }
 }

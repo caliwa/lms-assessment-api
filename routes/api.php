@@ -13,9 +13,9 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/books/search', [BookController::class, 'search']);
 Route::get('/books', [BookController::class, 'index']);
 Route::get('/books/{book}', [BookController::class, 'show']);
-Route::get('/books/search', [BookController::class, 'search']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     

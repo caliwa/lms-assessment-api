@@ -26,8 +26,7 @@ class Book extends Model
     public function borrowers()
     {
         return $this->belongsToMany(User::class, 'book_user')
-                    ->withPivot('borrowed_at', 'due_at', 'returned_at')
-                    ->withTimestamps();
+                    ->withPivot('borrowed_at', 'due_at', 'returned_at');
     }
 
     public function scopeSearch(Builder $query, ?string $searchTerm)

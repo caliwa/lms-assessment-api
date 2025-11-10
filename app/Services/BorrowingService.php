@@ -47,7 +47,7 @@ class BorrowingService
         }
 
         DB::transaction(function () use ($user, $book, $borrowRecord) {
-            $user->borrowedBooks()->updateExistingPivot($book->id, [
+            $user->currentBorrowedBooks()->updateExistingPivot($book->id, [
                 'returned_at' => now()
             ]);
 
@@ -69,6 +69,6 @@ class BorrowingService
     {
         Cache::forget("user.{$user->id}.borrowed");
         Cache::forget("book.{$bookId}");
-        Cache::tags('books')->flush();
+        Cache::flush();
     }
 }

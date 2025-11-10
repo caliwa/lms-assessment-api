@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\UserRole;
+// No necesitamos importar el Enum aquí si usamos el helper
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,9 +16,19 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || auth()->user()->role !== UserRole::ADMIN) {
-            return response()->json(['message' => 'Acceso denegado. Requiere rol de administrador.'], 403);
+        if (!auth()->check()) {
+            return response()->json(['message' => 'No autenticado.'], 401);
         }
+
+        $rawRole = auth()->user()->getRawOriginal('role');
+
+        if ($rawRole !== 'Admin') {
+            return response()->json([
+                'message' => 'Acceso denegado. Requiere rol de administrador.',
+                'debug_role' => $rawRole
+            ], 403);
+        }
+
         return $next($request);
     }
 }
