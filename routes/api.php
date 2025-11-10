@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\BorrowingController;
+use App\Http\Controllers\Api\DashboardController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -22,6 +23,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 
+    Route::get('/dashboard-stats', [DashboardController::class, 'stats']);
+
     Route::post('/books/{book}/borrow', [BorrowingController::class, 'borrow'])
          ->middleware('throttle:borrow'); // Rate limiting
     Route::post('/books/{book}/return', [BorrowingController::class, 'return']);
@@ -32,6 +35,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/books', [BookController::class, 'store']);
         Route::put('/books/{book}', [BookController::class, 'update']);
         Route::delete('/books/{book}', [BookController::class, 'destroy']);
+
+        Route::get('/borrowing', [BorrowingController::class, 'allBorrowedBooks']);
 
         Route::apiResource('/users', UserController::class);
     });

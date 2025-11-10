@@ -14,6 +14,9 @@ class BookResource extends JsonResource
             'publication_year' => $this->publication_year,
             'available' => $this->availability_status,
             'author' => new AuthorResource($this->whenLoaded('author')), // Carga condicional
+            $this->mergeWhen($this->pivot, [
+                'pivot' => $this->pivot
+            ])
         ];
     }
 }

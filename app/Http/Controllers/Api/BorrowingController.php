@@ -37,4 +37,30 @@ class BorrowingController extends Controller
         $books = $this->borrowingService->getUserBorrowedBooks(Auth::user());
         return BookResource::collection($books);
     }
+
+public function allBorrowedBooks()
+    {
+        $borrowedBooks = Book::where('availability_status', false)
+            ->with([
+                'author', 
+                'borrowers' => fn($query) => $query->wherePivotNull('returned_at')
+            ])
+            ->latest('updated_at')
+            ->get();
+        
+        $formattedData = $borrowedBooks->map(function($book) {
+            $borrower = $book->borrowers->first();
+            
+            return [
+                'book_id' => $book->id,
+                'book_title' => $book->title,
+                'author_name' => $book->author ? $book->author->name : 'Autor Desconocido', // ✅
+                'user_id' => $borrower ? $borrower->id : null,
+                'user_name' => $borrower ? $borrower->name : 'Usuario Desconocido', // ✅
+                'due_at' => $borrower ? $borrower->pivot->due_at : null,
+            ];
+        });
+
+        return response()->json(['data' => $formattedData]);
+    }
 }
