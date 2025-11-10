@@ -18,7 +18,7 @@ export default function FormInput({
         {...register(id, validationRules)}
         placeholder=" " 
         className={`peer block w-full p-3 border rounded-md shadow-sm 
-                    focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent {/* <-- CAMBIO AQUÍ */}
+                    focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent
                     ${error ? 'border-red-500' : 'border-gray-300'}
                   `}
       />
@@ -29,7 +29,7 @@ export default function FormInput({
                     peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 
                     peer-placeholder-shown:scale-100 
                     peer-focus:top-3 peer-focus:-translate-y-6 
-                    peer-focus:scale-75 peer-focus:px-2 peer-focus:text-indigo-600 {/* <-- CAMBIO AQUÍ */}
+                    peer-focus:scale-75 peer-focus:px-2 peer-focus:text-indigo-600
                     ${error ? 'text-red-500' : ''}
                   `}
       >

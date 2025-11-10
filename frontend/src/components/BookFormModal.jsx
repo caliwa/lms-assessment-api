@@ -4,14 +4,25 @@ import Modal from './Modal';
 import { useEffect } from 'react';
 import FormInput from './FormInput';
 
+const getYearOptions = () => {
+  const currentYear = new Date().getFullYear();
+  const startYear = 1920;
+  const years = [];
+  
+  for (let year = currentYear; year >= startYear; year--) {
+    years.push(year);
+  }
+  return years;
+};
+
 export default function BookFormModal({ show, onClose, onSubmit, bookToEdit }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
 
   const isEditMode = !!bookToEdit;
+  const yearOptions = getYearOptions(); //
 
   useEffect(() => {
     if (isEditMode) {
-
       const flatBookData = {
         title: bookToEdit.title,
         isbn: bookToEdit.isbn,
@@ -19,16 +30,15 @@ export default function BookFormModal({ show, onClose, onSubmit, bookToEdit }) {
         author_id: bookToEdit.author ? bookToEdit.author.id : ''
       };
       reset(flatBookData);
-      
     } else {
       reset({
         title: '',
         author_id: '',
         isbn: '',
-        publication_year: '',
+        publication_year: new Date().getFullYear(), //
       });
     }
-  }, [bookToEdit, reset, isEditMode]); //
+  }, [bookToEdit, reset, isEditMode]);
 
   return (
     <Modal 
@@ -45,8 +55,6 @@ export default function BookFormModal({ show, onClose, onSubmit, bookToEdit }) {
           errors={errors}
         />
         
-        {/*
-        */}
         <FormInput
           id="author_id"
           label="ID del Autor"
@@ -64,17 +72,33 @@ export default function BookFormModal({ show, onClose, onSubmit, bookToEdit }) {
           errors={errors}
         />
         
-        <FormInput
-          id="publication_year"
-          label="Año de Publicación"
-          type="number"
-          register={register}
-          validationRules={{ 
-            required: 'El año es obligatorio',
-            min: { value: 1800, message: 'Año inválido' }
-          }}
-          errors={errors}
-        />
+        {}
+        <div>
+          <label 
+            htmlFor="publication_year" 
+            className="block text-sm font-medium text-gray-700"
+          >
+            Año de Publicación
+          </label>
+          <select
+            id="publication_year"
+            {...register('publication_year', { 
+              required: 'El año es obligatorio' 
+            })}
+            className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+          >
+            <option value="">Selecciona un año</option>
+            {yearOptions.map(year => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+          {errors.publication_year && (
+            <p className="mt-1 text-sm text-red-600">{errors.publication_year.message}</p>
+          )}
+        </div>
+        {}
 
         <div className="flex justify-end space-x-4">
           <button
