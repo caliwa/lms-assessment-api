@@ -9,6 +9,8 @@ import PageHeader from '../../components/PageHeader';
 import { BsPencil, BsTrash, BsPersonCircle } from 'react-icons/bs';
 import toast from 'react-hot-toast';
 
+const USERS_ENDPOINT = '/api/users';
+
 export default function ManageUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +20,7 @@ export default function ManageUsers() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await apiClient.get('/api/users');
+      const response = await apiClient.get(USERS_ENDPOINT);
       setUsers(response.data.data);
     } catch (err) {
       toast.error('No se pudieron cargar los usuarios.');
@@ -33,8 +35,8 @@ export default function ManageUsers() {
 
   const handleFormSubmit = async (data) => {
     const promise = userToEdit
-      ? apiClient.put(`/api/users/${userToEdit.id}`, data)
-      : apiClient.post('/api/users', data);
+      ? apiClient.put(`${USERS_ENDPOINT}/${userToEdit.id}`, data)
+      : apiClient.post(USERS_ENDPOINT, data);
 
     toast.promise(promise, {
       loading: 'Guardando usuario...',
@@ -50,7 +52,7 @@ export default function ManageUsers() {
 
   const handleDelete = async (userId) => {
     if (window.confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
-      toast.promise(apiClient.delete(`/api/users/${userId}`), {
+      toast.promise(apiClient.delete(`${USERS_ENDPOINT}/${userId}`), {
         loading: 'Eliminando usuario...',
         success: () => {
           fetchUsers();
@@ -78,8 +80,7 @@ export default function ManageUsers() {
           {!loading && (
             <Table>
               <Thead>
-                {/* 
-                */}
+                {/* */}
                 <Tr>
                   <Th>Nombre</Th><Th>Library ID</Th><Th>Rol</Th><Th><span className="sr-only">Acciones</span></Th>
                 </Tr>
