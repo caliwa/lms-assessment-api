@@ -87,8 +87,6 @@ export default function ManageBooks() {
           {!loading && (
             <Table>
               <Thead>
-                {/* 
-                */}
                 <Tr>
                   <Th>ID</Th><Th>Título</Th><Th>Autor ID</Th><Th>ISBN</Th><Th>Estado</Th><Th><span className="sr-only">Acciones</span></Th>
                 </Tr>
@@ -96,7 +94,13 @@ export default function ManageBooks() {
               <Tbody>
                 {books.map(book => (
                   <Tr key={book.id}>
-                    <Td>{book.id}</Td><Td className="font-medium">{book.title}</Td><Td>{book.author_id}</Td><Td>{book.isbn}</Td><Td>
+                    <Td>{book.id}</Td>
+                    <Td className="font-medium">{book.title}</Td>
+                    
+                    {}
+                    <Td>{book.author ? book.author.id : 'N/A'}</Td>
+                    
+                    <Td>{book.isbn}</Td><Td>
                       {book.available ? (
                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                           Disponible
